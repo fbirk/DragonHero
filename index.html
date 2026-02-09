@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#e94560" />
+  <link rel="manifest" href="manifest.json" />
+  <title>DragonHero</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #1a1a2e; }
+    #game-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+    #rotate-prompt {
+      display: none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #1a1a2e; color: #e94560;
+      font-family: monospace; font-size: 18px;
+      align-items: center; justify-content: center; text-align: center;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container"></div>
+  <div id="rotate-prompt">Please rotate your device to landscape mode</div>
+  <script>
+    function checkOrientation() {
+      var prompt = document.getElementById('rotate-prompt');
+      var container = document.getElementById('game-container');
+      if (window.innerHeight > window.innerWidth) {
+        prompt.style.display = 'flex';
+        container.style.display = 'none';
+      } else {
+        prompt.style.display = 'none';
+        container.style.display = 'flex';
+      }
+    }
+    window.addEventListener('resize', checkOrientation);
+    window.addEventListener('orientationchange', checkOrientation);
+    checkOrientation();
+  </script>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="24" fill="#1a1a2e"/>
+  <!-- Dragon body -->
+  <rect x="50" y="80" width="80" height="48" rx="8" fill="#44aa44"/>
+  <!-- Dragon head -->
+  <rect x="110" y="60" width="40" height="40" rx="6" fill="#44aa44"/>
+  <!-- Dragon eye -->
+  <circle cx="138" cy="74" r="6" fill="#ffcc00"/>
+  <circle cx="140" cy="73" r="3" fill="#000"/>
+  <!-- Dragon tail -->
+  <rect x="30" y="90" width="30" height="16" rx="4" fill="#338833"/>
+  <!-- Dragon belly -->
+  <rect x="60" y="108" width="60" height="16" rx="4" fill="#dddd88"/>
+  <!-- Wings -->
+  <rect x="60" y="52" width="32" height="24" rx="4" fill="#55bb55"/>
+  <!-- Knight armor -->
+  <rect x="76" y="56" width="28" height="28" rx="4" fill="#ccccdd"/>
+  <!-- Knight helmet -->
+  <rect x="82" y="44" width="16" height="16" rx="2" fill="#aaaacc"/>
+  <!-- Plume -->
+  <rect x="86" y="38" width="8" height="8" rx="2" fill="#e94560"/>
+  <!-- Title text -->
+  <text x="96" y="168" font-family="monospace" font-size="22" font-weight="bold" fill="#e94560" text-anchor="middle">DragonHero</text>
+</svg>
