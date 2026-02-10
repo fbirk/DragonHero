@@ -9,6 +9,11 @@ export class BootScene extends Phaser.Scene {
   preload(): void {
     this.createLoadingBar();
     this.generateAssets();
+
+    this.load.image('portrait-knight', 'knight_48x48.png');
+    this.load.image('portrait-dragon', 'dragon_48x48.png');
+    this.load.image('portrait-narrator', 'narrator_48x48.png');
+    this.load.image('portrait-wizard', 'wizard_48x48.png');
   }
 
   create(): void {
@@ -33,11 +38,12 @@ export class BootScene extends Phaser.Scene {
   }
 
   private generateAssets(): void {
-    this.generateDragonSprite();
+    //this.generateDragonSprite();
     this.generateObstacleSprites();
     this.generateBackgrounds();
     this.generateUIElements();
-    this.generatePortraits();
+    //this.generatePortraits();
+    this.load.atlas('a-dragon', 'sprites/CharacterFlyingSprite.png', 'sprites/CharacterFlyingSprite_atlas.json');
   }
 
   // --- Dragon sprite sheet (3 frames: idle, flap, hit) ---
