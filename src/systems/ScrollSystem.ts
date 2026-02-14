@@ -1,5 +1,6 @@
 import { Obstacle, ObstacleConfig } from '../entities/Obstacle';
 import { BASE_SCROLL_SPEED } from '../config/constants';
+import { getGameWidth } from '../config/resolution';
 
 export interface LevelConfig {
   id: string;
@@ -43,12 +44,12 @@ export class ScrollSystem {
     // Spawn obstacles that should now be visible
     while (
       this.spawnIndex < this.levelConfig.obstacles.length &&
-      this.levelConfig.obstacles[this.spawnIndex].spawnX <= this.scrollProgress + 480
+      this.levelConfig.obstacles[this.spawnIndex].spawnX <= this.scrollProgress + getGameWidth()
     ) {
       const config = this.levelConfig.obstacles[this.spawnIndex];
       const obstacle = new Obstacle({
         ...config,
-        spawnX: config.spawnX - this.scrollProgress + 480,
+        spawnX: config.spawnX - this.scrollProgress + getGameWidth(),
       });
       this.activeObstacles.push(obstacle);
       this.spawnIndex++;

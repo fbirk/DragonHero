@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { GAME_WIDTH, GAME_HEIGHT } from '../config/constants';
+import { GAME_HEIGHT } from '../config/constants';
+import { getGameWidth } from '../config/resolution';
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -53,9 +54,10 @@ export class BootScene extends Phaser.Scene {
   }
 
   private createLoadingBar(): void {
-    const width = GAME_WIDTH * 0.6;
+    const w = getGameWidth();
+    const width = w * 0.6;
     const height = 16;
-    const x = (GAME_WIDTH - width) / 2;
+    const x = (w - width) / 2;
     const y = GAME_HEIGHT / 2;
 
     const bg = this.add.rectangle(x + width / 2, y, width, height, 0x333333);
@@ -132,6 +134,9 @@ export class BootScene extends Phaser.Scene {
 
   // --- Parallax background layers ---
   private generateBackgrounds(): void {
+    const w = getGameWidth();
+    const s = w / 480; // scale factor for proportional positioning
+
     // Far layer: sky with stars/clouds
     const gf = this.make.graphics({ x: 0, y: 0 }, false);
     // Gradient sky
@@ -141,7 +146,7 @@ export class BootScene extends Phaser.Scene {
       const gg = Math.floor(0x0a + t * 0x20);
       const b = Math.floor(0x2e + t * 0x20);
       gf.fillStyle((r << 16) | (gg << 8) | b);
-      gf.fillRect(0, y, GAME_WIDTH, 4);
+      gf.fillRect(0, y, w, 4);
     }
     // Stars
     const starPositions = [
@@ -150,20 +155,20 @@ export class BootScene extends Phaser.Scene {
     ];
     gf.fillStyle(0xffffff);
     for (const [sx, sy] of starPositions) {
-      gf.fillRect(sx, sy, 2, 2);
+      gf.fillRect(Math.round(sx * s), sy, 2, 2);
     }
     // Moon
     gf.fillStyle(0xddddaa);
-    gf.fillCircle(380, 40, 12);
+    gf.fillCircle(Math.round(380 * s), 40, 12);
     gf.fillStyle(0x0a0a2e);
-    gf.fillCircle(385, 38, 10);
-    gf.generateTexture('bg-far', GAME_WIDTH, GAME_HEIGHT);
+    gf.fillCircle(Math.round(385 * s), 38, 10);
+    gf.generateTexture('bg-far', w, GAME_HEIGHT);
     gf.destroy();
 
     // Mid layer: mountains/castles
     const gm = this.make.graphics({ x: 0, y: 0 }, false);
     gm.fillStyle(0x000000, 0); // transparent base
-    gm.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    gm.fillRect(0, 0, w, GAME_HEIGHT);
     // Mountains
     gm.fillStyle(0x1a2a4e);
     const mountains = [
@@ -173,53 +178,56 @@ export class BootScene extends Phaser.Scene {
       { x: 360, peak: 120, w: 120 },
     ];
     for (const m of mountains) {
+      const mx = Math.round(m.x * s);
+      const mw = Math.round(m.w * s);
       gm.beginPath();
-      gm.moveTo(m.x, GAME_HEIGHT);
-      gm.lineTo(m.x + m.w / 2, m.peak);
-      gm.lineTo(m.x + m.w, GAME_HEIGHT);
+      gm.moveTo(mx, GAME_HEIGHT);
+      gm.lineTo(mx + mw / 2, m.peak);
+      gm.lineTo(mx + mw, GAME_HEIGHT);
       gm.closePath();
       gm.fillPath();
     }
     // Castle silhouette
     gm.fillStyle(0x162040);
-    gm.fillRect(180, 180, 30, 60);
-    gm.fillRect(175, 170, 10, 14);
-    gm.fillRect(205, 170, 10, 14);
-    gm.fillRect(190, 160, 10, 24);
+    gm.fillRect(Math.round(180 * s), 180, 30, 60);
+    gm.fillRect(Math.round(175 * s), 170, 10, 14);
+    gm.fillRect(Math.round(205 * s), 170, 10, 14);
+    gm.fillRect(Math.round(190 * s), 160, 10, 24);
     // Castle flag
     gm.fillStyle(0xe94560);
-    gm.fillRect(193, 155, 6, 4);
-    gm.generateTexture('bg-mid', GAME_WIDTH, GAME_HEIGHT);
+    gm.fillRect(Math.round(193 * s), 155, 6, 4);
+    gm.generateTexture('bg-mid', w, GAME_HEIGHT);
     gm.destroy();
 
     // Near layer: ground with trees
     const gn = this.make.graphics({ x: 0, y: 0 }, false);
     gn.fillStyle(0x000000, 0);
-    gn.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    gn.fillRect(0, 0, w, GAME_HEIGHT);
     // Ground
     gn.fillStyle(0x2a4a2a);
-    gn.fillRect(0, GAME_HEIGHT - 32, GAME_WIDTH, 32);
+    gn.fillRect(0, GAME_HEIGHT - 32, w, 32);
     gn.fillStyle(0x3a5a3a);
-    gn.fillRect(0, GAME_HEIGHT - 36, GAME_WIDTH, 6);
+    gn.fillRect(0, GAME_HEIGHT - 36, w, 6);
     // Grass tufts
     gn.fillStyle(0x4a7a4a);
-    for (let x = 0; x < GAME_WIDTH; x += 20) {
+    for (let x = 0; x < w; x += 20) {
       gn.fillRect(x, GAME_HEIGHT - 38, 4, 4);
       gn.fillRect(x + 8, GAME_HEIGHT - 36, 3, 3);
     }
     // Trees
     const trees = [40, 150, 300, 420];
     for (const tx of trees) {
+      const stx = Math.round(tx * s);
       // Trunk
       gn.fillStyle(0x553322);
-      gn.fillRect(tx + 4, GAME_HEIGHT - 56, 6, 24);
+      gn.fillRect(stx + 4, GAME_HEIGHT - 56, 6, 24);
       // Foliage
       gn.fillStyle(0x2a6a2a);
-      gn.fillRect(tx, GAME_HEIGHT - 72, 14, 18);
+      gn.fillRect(stx, GAME_HEIGHT - 72, 14, 18);
       gn.fillStyle(0x3a7a3a);
-      gn.fillRect(tx + 2, GAME_HEIGHT - 76, 10, 6);
+      gn.fillRect(stx + 2, GAME_HEIGHT - 76, 10, 6);
     }
-    gn.generateTexture('bg-near', GAME_WIDTH, GAME_HEIGHT);
+    gn.generateTexture('bg-near', w, GAME_HEIGHT);
     gn.destroy();
 
     // Intro background: castle courtyard
@@ -231,26 +239,26 @@ export class BootScene extends Phaser.Scene {
       const gg = Math.floor(0x18 + t * 0x18);
       const b = Math.floor(0x30 + t * 0x20);
       gi.fillStyle((r << 16) | (gg << 8) | b);
-      gi.fillRect(0, y, GAME_WIDTH, 4);
+      gi.fillRect(0, y, w, 4);
     }
     // Castle wall
     gi.fillStyle(0x555566);
-    gi.fillRect(0, GAME_HEIGHT - 100, GAME_WIDTH, 100);
+    gi.fillRect(0, GAME_HEIGHT - 100, w, 100);
     gi.fillStyle(0x666677);
-    gi.fillRect(0, GAME_HEIGHT - 104, GAME_WIDTH, 8);
+    gi.fillRect(0, GAME_HEIGHT - 104, w, 8);
     // Battlements
-    for (let x = 0; x < GAME_WIDTH; x += 24) {
+    for (let x = 0; x < w; x += 24) {
       gi.fillStyle(0x555566);
       gi.fillRect(x, GAME_HEIGHT - 116, 12, 16);
     }
     // Torches
     gi.fillStyle(0xffaa33);
-    gi.fillRect(100, GAME_HEIGHT - 80, 4, 6);
-    gi.fillRect(380, GAME_HEIGHT - 80, 4, 6);
+    gi.fillRect(Math.round(100 * s), GAME_HEIGHT - 80, 4, 6);
+    gi.fillRect(Math.round(380 * s), GAME_HEIGHT - 80, 4, 6);
     gi.fillStyle(0xff6622);
-    gi.fillRect(101, GAME_HEIGHT - 84, 2, 4);
-    gi.fillRect(381, GAME_HEIGHT - 84, 2, 4);
-    gi.generateTexture('bg-intro', GAME_WIDTH, GAME_HEIGHT);
+    gi.fillRect(Math.round(101 * s), GAME_HEIGHT - 84, 2, 4);
+    gi.fillRect(Math.round(381 * s), GAME_HEIGHT - 84, 2, 4);
+    gi.generateTexture('bg-intro', w, GAME_HEIGHT);
     gi.destroy();
 
     // Ending background: sunrise
@@ -261,19 +269,19 @@ export class BootScene extends Phaser.Scene {
       const gg = Math.floor(0x20 + (1 - t) * 0x60);
       const b = Math.floor(0x40 + t * 0x30);
       ge.fillStyle((r << 16) | (gg << 8) | b);
-      ge.fillRect(0, y, GAME_WIDTH, 4);
+      ge.fillRect(0, y, w, 4);
     }
     // Sun
     ge.fillStyle(0xffdd44);
-    ge.fillCircle(GAME_WIDTH / 2, GAME_HEIGHT * 0.35, 20);
+    ge.fillCircle(w / 2, GAME_HEIGHT * 0.35, 20);
     ge.fillStyle(0xffee88);
-    ge.fillCircle(GAME_WIDTH / 2, GAME_HEIGHT * 0.35, 14);
+    ge.fillCircle(w / 2, GAME_HEIGHT * 0.35, 14);
     // Ground
     ge.fillStyle(0x3a6a3a);
-    ge.fillRect(0, GAME_HEIGHT - 40, GAME_WIDTH, 40);
+    ge.fillRect(0, GAME_HEIGHT - 40, w, 40);
     ge.fillStyle(0x4a8a4a);
-    ge.fillRect(0, GAME_HEIGHT - 44, GAME_WIDTH, 6);
-    ge.generateTexture('bg-ending', GAME_WIDTH, GAME_HEIGHT);
+    ge.fillRect(0, GAME_HEIGHT - 44, w, 6);
+    ge.generateTexture('bg-ending', w, GAME_HEIGHT);
     ge.destroy();
   }
 

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import { GAME_WIDTH, GAME_HEIGHT, COLORS, BUTTON_MIN_SIZE } from '../config/constants';
+import { GAME_HEIGHT, COLORS, BUTTON_MIN_SIZE } from '../config/constants';
+import { getGameWidth } from '../config/resolution';
 import { loadGame, exportSave, importSave, saveGame } from '../storage/SaveManager';
 
 export class StartScene extends Phaser.Scene {
@@ -8,13 +9,15 @@ export class StartScene extends Phaser.Scene {
   }
 
   create(): void {
+    const w = getGameWidth();
+
     // Background layers
-    this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-far').setDisplaySize(GAME_WIDTH, GAME_HEIGHT);
-    this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-mid').setDisplaySize(GAME_WIDTH, GAME_HEIGHT).setAlpha(0.6);
-    this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-near').setDisplaySize(GAME_WIDTH, GAME_HEIGHT).setAlpha(0.4);
+    this.add.image(w / 2, GAME_HEIGHT / 2, 'bg-far').setDisplaySize(w, GAME_HEIGHT);
+    this.add.image(w / 2, GAME_HEIGHT / 2, 'bg-mid').setDisplaySize(w, GAME_HEIGHT).setAlpha(0.6);
+    this.add.image(w / 2, GAME_HEIGHT / 2, 'bg-near').setDisplaySize(w, GAME_HEIGHT).setAlpha(0.4);
 
     // Dragon character on title screen
-    const dragon = this.add.sprite(GAME_WIDTH / 2 - 80, GAME_HEIGHT / 3 - 10, 'a-dragon', 'flying_0');
+    const dragon = this.add.sprite(w / 2 - 80, GAME_HEIGHT / 3 - 10, 'a-dragon', 'flying_0');
     dragon.setDisplaySize(48, 36);
     dragon.play('dragon-idle');
     this.tweens.add({
@@ -27,14 +30,14 @@ export class StartScene extends Phaser.Scene {
     });
 
     // Title
-    const title = this.add.text(GAME_WIDTH / 2 + 10, GAME_HEIGHT / 3, 'DragonHero', {
+    const title = this.add.text(w / 2 + 10, GAME_HEIGHT / 3, 'DragonHero', {
       fontSize: '32px',
       color: COLORS.primary,
       fontFamily: 'monospace',
       fontStyle: 'bold',
     });
     title.setOrigin(0.5, 0.5);
-    const titleShadow = this.add.text(GAME_WIDTH / 2 + 12, GAME_HEIGHT / 3 + 2, 'DragonHero', {
+    const titleShadow = this.add.text(w / 2 + 12, GAME_HEIGHT / 3 + 2, 'DragonHero', {
       fontSize: '32px',
       color: '#000000',
       fontFamily: 'monospace',
@@ -45,18 +48,18 @@ export class StartScene extends Phaser.Scene {
     titleShadow.setDepth(-1);
 
     // Subtitle
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 3 + 36, 'Erlebe die Abenteuer von Lady Jana', {
+    this.add.text(w / 2, GAME_HEIGHT / 3 + 36, 'Erlebe die Abenteuer von Lady Jana', {
       fontSize: '12px',
       color: COLORS.text,
       fontFamily: 'monospace',
     }).setOrigin(0.5, 0.5);
 
     // Start button
-    const btnBg = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.65, 'btn-start');
+    const btnBg = this.add.image(w / 2, GAME_HEIGHT * 0.65, 'btn-start');
     btnBg.setDisplaySize(120, BUTTON_MIN_SIZE);
     btnBg.setInteractive({ useHandCursor: true });
 
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.65, 'START', {
+    this.add.text(w / 2, GAME_HEIGHT * 0.65, 'START', {
       fontSize: '16px',
       color: COLORS.text,
       fontFamily: 'monospace',
