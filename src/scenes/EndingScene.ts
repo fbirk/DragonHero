@@ -79,9 +79,10 @@ export class EndingScene extends Phaser.Scene {
     this.background.setTexture(frame.backgroundKey);
 
     const speakerNames: Record<string, string> = {
-      knight: 'Lady Elara',
-      dragon: 'Ember',
+      knight: 'Lady Jana',
+      dragon: 'Tairn',
       narrator: 'Narrator',
+      wizard: 'Sir Fabian',
     };
     this.speakerText.setText(speakerNames[frame.speaker] || frame.speaker);
     this.dialogueText.setText(frame.text);

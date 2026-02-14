@@ -64,6 +64,7 @@ export class IntroScene extends Phaser.Scene {
 
     const speakerNames: Record<string, string> = {
       knight: 'Lady Jana',
+      wizard: 'Sir Fabian',
       dragon: 'Tairn',
       narrator: 'Erzähler',
     };

@@ -14,8 +14,9 @@ export class StartScene extends Phaser.Scene {
     this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-near').setDisplaySize(GAME_WIDTH, GAME_HEIGHT).setAlpha(0.4);
 
     // Dragon character on title screen
-    const dragon = this.add.sprite(GAME_WIDTH / 2 - 80, GAME_HEIGHT / 3 - 10, 'dragon', 0);
-    dragon.setDisplaySize(48, 48);
+    const dragon = this.add.sprite(GAME_WIDTH / 2 - 80, GAME_HEIGHT / 3 - 10, 'a-dragon', 'flying_0');
+    dragon.setDisplaySize(48, 36);
+    dragon.play('dragon-idle');
     this.tweens.add({
       targets: dragon,
       y: dragon.y - 6,
@@ -44,7 +45,7 @@ export class StartScene extends Phaser.Scene {
     titleShadow.setDepth(-1);
 
     // Subtitle
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 3 + 36, 'A Dragon Flight Adventure', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 3 + 36, 'Erlebe die Abenteuer von Lady Jana', {
       fontSize: '12px',
       color: COLORS.text,
       fontFamily: 'monospace',
@@ -67,28 +68,6 @@ export class StartScene extends Phaser.Scene {
     });
     btnBg.on('pointerover', () => btnBg.setAlpha(0.8));
     btnBg.on('pointerout', () => btnBg.setAlpha(1));
-
-    // Export save button
-    const exportText = this.add.text(GAME_WIDTH - 90, GAME_HEIGHT - 24, 'Export Save', {
-      fontSize: '9px',
-      color: COLORS.text,
-      fontFamily: 'monospace',
-    }).setOrigin(0, 0.5).setAlpha(0.6);
-    exportText.setInteractive({ useHandCursor: true });
-    exportText.on('pointerdown', () => this.exportSaveData());
-    exportText.on('pointerover', () => exportText.setAlpha(1));
-    exportText.on('pointerout', () => exportText.setAlpha(0.6));
-
-    // Import save button
-    const importText = this.add.text(GAME_WIDTH - 90, GAME_HEIGHT - 12, 'Import Save', {
-      fontSize: '9px',
-      color: COLORS.text,
-      fontFamily: 'monospace',
-    }).setOrigin(0, 0.5).setAlpha(0.6);
-    importText.setInteractive({ useHandCursor: true });
-    importText.on('pointerdown', () => this.importSaveData());
-    importText.on('pointerover', () => importText.setAlpha(1));
-    importText.on('pointerout', () => importText.setAlpha(0.6));
 
     // Version text
     this.add.text(8, GAME_HEIGHT - 8, 'v0.1', {

@@ -82,8 +82,8 @@ export class GameScene extends Phaser.Scene {
     this.bgNear.setAlpha(0.5);
 
     // Dragon sprite
-    this.dragonSprite = this.add.sprite(DRAGON_START_X, this.dragon.y, 'dragon', 0);
-    this.dragonSprite.setDisplaySize(32, 32);
+    this.dragonSprite = this.add.sprite(DRAGON_START_X, this.dragon.y, 'a-dragon', 'flying_0');
+    this.dragonSprite.setDisplaySize(32, 24);
 
     // Lives HUD
     this.heartImages = [];
@@ -147,13 +147,17 @@ export class GameScene extends Phaser.Scene {
     // Sync dragon sprite
     this.dragonSprite.setY(this.dragon.y + 16); // center offset
 
-    // Update dragon frame based on animation state
+    // Update dragon animation based on state
     if (this.dragon.animationState === 'flapping') {
-      this.dragonSprite.setFrame(1);
+      if (!this.dragonSprite.anims.isPlaying || this.dragonSprite.anims.currentAnim?.key !== 'dragon-flap') {
+        this.dragonSprite.play('dragon-flap');
+      }
     } else if (this.dragon.animationState === 'hit') {
-      this.dragonSprite.setFrame(2);
+      this.dragonSprite.play('dragon-hit');
     } else {
-      this.dragonSprite.setFrame(0);
+      if (!this.dragonSprite.anims.isPlaying || this.dragonSprite.anims.currentAnim?.key !== 'dragon-idle') {
+        this.dragonSprite.play('dragon-idle');
+      }
     }
 
     // Invincibility flash
