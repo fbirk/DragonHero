@@ -5,6 +5,7 @@ import { CollisionSystem } from '../systems/CollisionSystem';
 import { ScrollSystem } from '../systems/ScrollSystem';
 import { LEVELS } from '../data/levels';
 import {
+  GAME_WIDTH,
   GAME_HEIGHT,
   MAX_LIVES,
   HEART_SIZE,
@@ -18,7 +19,6 @@ import {
   PARALLAX_NEAR,
   DRAGON_START_X,
 } from '../config/constants';
-import { getGameWidth } from '../config/resolution';
 
 export interface GameSceneData {
   levelId: string;
@@ -55,8 +55,6 @@ export class GameScene extends Phaser.Scene {
   }
 
   create(): void {
-    const w = getGameWidth();
-
     // Init systems
     this.dragon = new Dragon(32);
     this.physicsSystem = new PhysicsSystem();
@@ -74,12 +72,12 @@ export class GameScene extends Phaser.Scene {
     }
 
     // Parallax backgrounds
-    this.bgFar = this.add.tileSprite(0, 0, w, GAME_HEIGHT, 'bg-far');
+    this.bgFar = this.add.tileSprite(0, 0, GAME_WIDTH, GAME_HEIGHT, 'bg-far');
     this.bgFar.setOrigin(0, 0);
-    this.bgMid = this.add.tileSprite(0, 0, w, GAME_HEIGHT, 'bg-mid');
+    this.bgMid = this.add.tileSprite(0, 0, GAME_WIDTH, GAME_HEIGHT, 'bg-mid');
     this.bgMid.setOrigin(0, 0);
     this.bgMid.setAlpha(0.7);
-    this.bgNear = this.add.tileSprite(0, 0, w, GAME_HEIGHT, 'bg-near');
+    this.bgNear = this.add.tileSprite(0, 0, GAME_WIDTH, GAME_HEIGHT, 'bg-near');
     this.bgNear.setOrigin(0, 0);
     this.bgNear.setAlpha(0.5);
 
@@ -111,12 +109,12 @@ export class GameScene extends Phaser.Scene {
 
     // Pause overlay (hidden initially)
     this.pauseOverlay = this.add.rectangle(
-      w / 2, GAME_HEIGHT / 2, w, GAME_HEIGHT, 0x000000, 0.6,
+      GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT, 0x000000, 0.6,
     );
     this.pauseOverlay.setVisible(false);
     this.pauseOverlay.setDepth(100);
 
-    this.pauseText = this.add.text(w / 2, GAME_HEIGHT / 2, 'PAUSED', {
+    this.pauseText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'PAUSED', {
       fontSize: '24px',
       color: COLORS.text,
       fontFamily: 'monospace',

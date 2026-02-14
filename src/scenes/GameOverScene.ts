@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
-import { GAME_HEIGHT, COLORS, BUTTON_MIN_SIZE } from '../config/constants';
-import { getGameWidth } from '../config/resolution';
+import { GAME_WIDTH, GAME_HEIGHT, COLORS, BUTTON_MIN_SIZE } from '../config/constants';
 
 export interface GameOverSceneData {
   levelId: string;
@@ -19,14 +18,12 @@ export class GameOverScene extends Phaser.Scene {
   }
 
   create(): void {
-    const w = getGameWidth();
-
     // Dark background with vignette effect
-    this.add.image(w / 2, GAME_HEIGHT / 2, 'bg-far').setDisplaySize(w, GAME_HEIGHT).setAlpha(0.3);
-    this.add.rectangle(w / 2, GAME_HEIGHT / 2, w, GAME_HEIGHT, 0x000000, 0.6);
+    this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-far').setDisplaySize(GAME_WIDTH, GAME_HEIGHT).setAlpha(0.3);
+    this.add.rectangle(GAME_WIDTH / 2, GAME_HEIGHT / 2, GAME_WIDTH, GAME_HEIGHT, 0x000000, 0.6);
 
     // Dragon hit sprite
-    const dragon = this.add.sprite(w / 2, GAME_HEIGHT / 4, 'dragon', 2);
+    const dragon = this.add.sprite(GAME_WIDTH / 2, GAME_HEIGHT / 4, 'dragon', 2);
     dragon.setDisplaySize(48, 48);
     // Falling animation
     this.tweens.add({
@@ -40,14 +37,14 @@ export class GameOverScene extends Phaser.Scene {
     });
 
     // Game Over title with shadow
-    this.add.text(w / 2 + 2, GAME_HEIGHT * 0.42 + 2, 'GAME OVER', {
+    this.add.text(GAME_WIDTH / 2 + 2, GAME_HEIGHT * 0.42 + 2, 'GAME OVER', {
       fontSize: '28px',
       color: '#000000',
       fontFamily: 'monospace',
       fontStyle: 'bold',
     }).setOrigin(0.5, 0.5).setAlpha(0.4);
 
-    this.add.text(w / 2, GAME_HEIGHT * 0.42, 'GAME OVER', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.42, 'GAME OVER', {
       fontSize: '28px',
       color: COLORS.primary,
       fontFamily: 'monospace',
@@ -55,11 +52,11 @@ export class GameOverScene extends Phaser.Scene {
     }).setOrigin(0.5, 0.5);
 
     // Retry button
-    const retryBg = this.add.image(w / 2, GAME_HEIGHT * 0.6, 'btn-start');
+    const retryBg = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.6, 'btn-start');
     retryBg.setDisplaySize(120, BUTTON_MIN_SIZE);
     retryBg.setInteractive({ useHandCursor: true });
 
-    this.add.text(w / 2, GAME_HEIGHT * 0.6, 'Erneut Versuchen', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.6, 'Erneut Versuchen', {
       fontSize: '14px',
       color: COLORS.text,
       fontFamily: 'monospace',
@@ -78,12 +75,12 @@ export class GameOverScene extends Phaser.Scene {
     retryBg.on('pointerout', () => retryBg.setAlpha(1));
 
     // Main Menu button
-    const menuBg = this.add.image(w / 2, GAME_HEIGHT * 0.78, 'btn-start');
+    const menuBg = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT * 0.78, 'btn-start');
     menuBg.setDisplaySize(120, BUTTON_MIN_SIZE);
     menuBg.setInteractive({ useHandCursor: true });
     menuBg.setAlpha(0.7);
 
-    this.add.text(w / 2, GAME_HEIGHT * 0.78, 'HAUPTMENÜ', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT * 0.78, 'HAUPTMENÜ', {
       fontSize: '12px',
       color: COLORS.text,
       fontFamily: 'monospace',

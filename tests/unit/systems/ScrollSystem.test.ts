@@ -1,9 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
-
-vi.mock('../../../src/config/resolution', () => ({
-  getGameWidth: () => 480,
-}));
-
+import { describe, it, expect, beforeEach } from 'vitest';
 import { ScrollSystem, type LevelConfig } from '../../../src/systems/ScrollSystem';
 
 describe('ScrollSystem', () => {

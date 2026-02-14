@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
-import { GAME_HEIGHT, COLORS, DIALOGUE_ADVANCE_DEBOUNCE } from '../config/constants';
-import { getGameWidth } from '../config/resolution';
+import { GAME_WIDTH, GAME_HEIGHT, COLORS, DIALOGUE_ADVANCE_DEBOUNCE } from '../config/constants';
 import { ENDING_DIALOGUE, type DialogueFrame } from '../data/dialogue';
 import { saveGame } from '../storage/SaveManager';
 
@@ -30,8 +29,6 @@ export class EndingScene extends Phaser.Scene {
     this.currentFrameIndex = 0;
     this.canAdvance = true;
 
-    const w = getGameWidth();
-
     // Save progress
     saveGame({
       highestLevelCompleted: this.levelId,
@@ -39,11 +36,11 @@ export class EndingScene extends Phaser.Scene {
     });
 
     // Background
-    this.background = this.add.image(w / 2, GAME_HEIGHT / 2, 'bg-ending');
-    this.background.setDisplaySize(w, GAME_HEIGHT);
+    this.background = this.add.image(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'bg-ending');
+    this.background.setDisplaySize(GAME_WIDTH, GAME_HEIGHT);
 
     // Speech bubble background
-    this.speechBubble = this.add.image(w / 2 + 20, GAME_HEIGHT * 0.65, 'speech-bubble');
+    this.speechBubble = this.add.image(GAME_WIDTH / 2 + 20, GAME_HEIGHT * 0.65, 'speech-bubble');
     this.speechBubble.setDisplaySize(360, 90);
     this.speechBubble.setAlpha(0.9);
 
@@ -64,7 +61,7 @@ export class EndingScene extends Phaser.Scene {
       fontSize: '11px',
       color: COLORS.textDark,
       fontFamily: 'monospace',
-      wordWrap: { width: w - 140 },
+      wordWrap: { width: 340 },
       lineSpacing: 4,
     });
 

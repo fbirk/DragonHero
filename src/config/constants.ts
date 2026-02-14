@@ -1,8 +1,6 @@
 // Game dimensions
 export const GAME_WIDTH = 480;
 export const GAME_HEIGHT = 320;
-export const MIN_GAME_WIDTH = 480;
-export const MAX_GAME_WIDTH = 740;
 
 // Physics
 export const GRAVITY = 600;

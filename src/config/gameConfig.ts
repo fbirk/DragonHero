@@ -1,13 +1,12 @@
 import Phaser from 'phaser';
-import { GAME_HEIGHT } from './constants';
-import { getGameWidth } from './resolution';
+import { GAME_WIDTH, GAME_HEIGHT } from './constants';
 
-export { GAME_HEIGHT };
+export { GAME_WIDTH, GAME_HEIGHT };
 
 export function createGameConfig(scenes: Phaser.Types.Scenes.SceneType[]): Phaser.Types.Core.GameConfig {
   return {
     type: Phaser.CANVAS,
-    width: getGameWidth(),
+    width: GAME_WIDTH,
     height: GAME_HEIGHT,
     parent: 'game-container',
     backgroundColor: '#1a1a2e',
