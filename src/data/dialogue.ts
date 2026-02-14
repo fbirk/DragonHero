@@ -59,8 +59,15 @@ export const ENDING_DIALOGUE: DialogueFrame[] = [
     portraitKey: 'portrait-knight',
     backgroundKey: 'bg-ending',
   },
-  {
+    {
     id: 3,
+    speaker: 'wizard',
+    text: 'Danke, Lady Jana! Ohne dich wäre ich für immer hier gefangen gewesen.',
+    portraitKey: 'portrait-wizard',
+    backgroundKey: 'bg-ending',
+  },
+  {
+    id: 4,
     speaker: 'dragon',
     text: '*freudiges Brüllen* Geschafft!',
     portraitKey: 'portrait-dragon',
