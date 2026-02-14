@@ -17,6 +17,38 @@ export class BootScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Create dragon animations using the sprite atlas
+    this.anims.create({
+      key: 'dragon-flap',
+      frames: this.anims.generateFrameNames('a-dragon', {
+        prefix: 'flying_',
+        start: 0,
+        end: 5,
+      }),
+      frameRate: 12,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'dragon-idle',
+      frames: [
+        { key: 'a-dragon', frame: 'flying_0' },
+        { key: 'a-dragon', frame: 'flying_1' },
+      ],
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'dragon-hit',
+      frames: [
+        { key: 'a-dragon', frame: 'flying_3' },
+        { key: 'a-dragon', frame: 'flying_4' },
+      ],
+      frameRate: 8,
+      repeat: 0,
+    });
+
     this.scene.start('StartScene');
   }
 
@@ -38,102 +70,10 @@ export class BootScene extends Phaser.Scene {
   }
 
   private generateAssets(): void {
-    //this.generateDragonSprite();
     this.generateObstacleSprites();
     this.generateBackgrounds();
     this.generateUIElements();
-    //this.generatePortraits();
     this.load.atlas('a-dragon', 'sprites/CharacterFlyingSprite.png', 'sprites/CharacterFlyingSprite_atlas.json');
-  }
-
-  // --- Dragon sprite sheet (3 frames: idle, flap, hit) ---
-  private generateDragonSprite(): void {
-    const fw = 32;
-    const fh = 32;
-    const g = this.make.graphics({ x: 0, y: 0 }, false);
-
-    // Frame 0: Idle - dragon with wings folded
-    this.drawDragonBody(g, 0, 0, fw, fh, 0x44aa44, 0x338833);
-    // Wings folded (small)
-    g.fillStyle(0x55bb55);
-    g.fillRect(8, 8, 6, 4);
-    // Eye
-    g.fillStyle(0xffcc00);
-    g.fillRect(22, 8, 3, 3);
-    g.fillStyle(0x000000);
-    g.fillRect(23, 9, 1, 1);
-
-    // Frame 1: Flap - wings extended
-    this.drawDragonBody(g, fw, 0, fw, fh, 0x55cc55, 0x44aa44);
-    // Wings up
-    g.fillStyle(0x77dd77);
-    g.fillRect(fw + 6, 2, 8, 6);
-    g.fillStyle(0x66cc66);
-    g.fillRect(fw + 8, 4, 4, 2);
-    // Eye
-    g.fillStyle(0xffcc00);
-    g.fillRect(fw + 22, 8, 3, 3);
-    g.fillStyle(0x000000);
-    g.fillRect(fw + 23, 9, 1, 1);
-
-    // Frame 2: Hit - red tint, squished
-    this.drawDragonBody(g, fw * 2, 0, fw, fh, 0xcc4444, 0xaa3333);
-    // Eye X
-    g.fillStyle(0xffffff);
-    g.fillRect(fw * 2 + 22, 8, 1, 1);
-    g.fillRect(fw * 2 + 24, 8, 1, 1);
-    g.fillRect(fw * 2 + 23, 9, 1, 1);
-    g.fillRect(fw * 2 + 22, 10, 1, 1);
-    g.fillRect(fw * 2 + 24, 10, 1, 1);
-
-    // Knight on top of dragon (all frames)
-    for (let f = 0; f < 3; f++) {
-      const ox = f * fw;
-      // Knight body (armor)
-      g.fillStyle(0xccccdd);
-      g.fillRect(ox + 12, 4, 8, 8);
-      // Knight helmet
-      g.fillStyle(0xaaaacc);
-      g.fillRect(ox + 14, 1, 4, 4);
-      // Plume
-      g.fillStyle(0xe94560);
-      g.fillRect(ox + 15, 0, 2, 2);
-    }
-
-    g.generateTexture('dragon', fw * 3, fh);
-    g.destroy();
-
-    const texture = this.textures.get('dragon');
-    if (texture) {
-      for (let i = 0; i < 3; i++) {
-        texture.add(i, 0, i * fw, 0, fw, fh);
-      }
-    }
-  }
-
-  private drawDragonBody(
-    g: Phaser.GameObjects.Graphics,
-    ox: number, oy: number,
-    _w: number, _h: number,
-    bodyColor: number, darkColor: number,
-  ): void {
-    // Body
-    g.fillStyle(bodyColor);
-    g.fillRect(ox + 6, 12, 20, 12);
-    // Head
-    g.fillStyle(bodyColor);
-    g.fillRect(ox + 20, 6, 10, 10);
-    // Tail
-    g.fillStyle(darkColor);
-    g.fillRect(ox + 2, 16, 6, 4);
-    g.fillRect(ox + 0, 14, 4, 4);
-    // Legs
-    g.fillStyle(darkColor);
-    g.fillRect(ox + 10, 24, 3, 6);
-    g.fillRect(ox + 20, 24, 3, 6);
-    // Belly
-    g.fillStyle(0xdddd88);
-    g.fillRect(ox + 10, 18, 14, 4);
   }
 
   // --- Obstacle sprites ---

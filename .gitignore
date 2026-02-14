@@ -32,3 +32,4 @@ coverage/
 # PWA generated
 public/sw.js
 public/workbox-*.js
+.claude/settings.local.json
