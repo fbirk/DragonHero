@@ -33,3 +33,4 @@ coverage/
 public/sw.js
 public/workbox-*.js
 .claude/settings.local.json
+nul
